@@ -1,0 +1,44 @@
+.design-container {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  padding: 20px;
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.photo-strip {
+  width: 350px;
+  margin: 20px auto;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #aaa;
+}
+
+.photo-frame {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.photo-frame img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.sticker {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 30px;
+}
+
+.download-btn {
+  padding: 15px 30px;
+  background: #673ab7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
