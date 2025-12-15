@@ -1,12 +1,23 @@
 import React, { useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import "./Design.css";
 
 export default function Design() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { photos } = location.state;
   const stripRef = useRef(null);
+
+  const colors = [
+    { name: "Pink", value: "#ffc0cb" },
+    { name: "White", value: "#ffffff" },
+    { name: "Black", value: "#000000" },
+    { name: "Light Blue", value: "#add8e6" },
+    { name: "Brown", value: "#a52a2a" }
+  ];
+
+  const stickers = ["❤️", "✨", "😎", "🌸", "⭐"];
 
   const [bgColor, setBgColor] = useState("#ffffff");
   const [sticker, setSticker] = useState(null);
@@ -21,41 +32,76 @@ export default function Design() {
 
   return (
     <div className="design-container">
-      <h1>🎨 Design Your Photostrip</h1>
+      <div className="design-layout">
 
-      <div className="controls">
-        <label>Background Color:</label>
-        <input
-          type="color"
-          value={bgColor}
-          onChange={e => setBgColor(e.target.value)}
-        />
+        {/* COLUMN 1 — STRIP */}
+        <div className="column strip-column">
+          <div
+  className="photo-strip"
+  ref={stripRef}
+  style={{ backgroundColor: bgColor }}
+>
+  {photos.map((p, i) => (
+    <div
+      key={i}
+      className="photo-frame"
+      style={{ height: `${100 / photos.length}%` }} // evenly divide height
+    >
+      <img src={p} alt={`strip-${i}`} />
+      {sticker && <div className="sticker">{sticker}</div>}
+    </div>
+  ))}
+</div>
 
-        <label>Add Sticker:</label>
-        <select onChange={(e) => setSticker(e.target.value)}>
-          <option value="">None</option>
-          <option value="❤️">Heart</option>
-          <option value="✨">Sparkle</option>
-          <option value="😎">Cool</option>
-        </select>
-      </div>
+        </div>
 
-      <div
-        className="photo-strip"
-        ref={stripRef}
-        style={{ backgroundColor: bgColor }}
-      >
-        {photos.map((p, i) => (
-          <div key={i} className="photo-frame">
-            <img src={p} alt="strip" />
-            {sticker && <div className="sticker">{sticker}</div>}
+        {/* COLUMN 2 — CONTROLS */}
+        <div className="column controls-column">
+          <h1>🎨 Design Your Photostrip</h1>
+
+          <div className="color-picker">
+            <p>Strip Color</p>
+            {colors.map(c => (
+              <button
+                key={c.value}
+                className="color-btn"
+                style={{ backgroundColor: c.value }}
+                onClick={() => setBgColor(c.value)}
+              />
+            ))}
           </div>
-        ))}
-      </div>
 
-      <button className="download-btn" onClick={downloadStrip}>
-        Download Image 📥
-      </button>
+          <div className="sticker-picker">
+            <p>Stickers</p>
+            <div className="sticker-row">
+              {stickers.map(s => (
+                <span
+                  key={s}
+                  className="sticker-option"
+                  onClick={() => setSticker(s)}
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* COLUMN 3 — ACTIONS */}
+        <div className="column actions-column">
+          <button className="download-btn" onClick={downloadStrip}>
+            Download Image 📥
+          </button>
+
+          <button
+            className="again-btn"
+            onClick={() => navigate("/")}
+          >
+            Take Again 🔄
+          </button>
+        </div>
+
+      </div>
     </div>
   );
 }
